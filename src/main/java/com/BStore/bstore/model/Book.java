@@ -26,9 +26,9 @@ public class Book {
     @NotBlank
     private String author;
 
+
     @PositiveOrZero
     private double price;
-
     // constructors, getters, and setters
 
     public Book() {

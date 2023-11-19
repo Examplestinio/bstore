@@ -4,6 +4,8 @@ import com.BStore.bstore.model.Book;
 import com.BStore.bstore.repository.BookRepository;
 import com.BStore.bstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,4 +52,11 @@ public class BookServiceImpl implements BookService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Book> getPaginatedAndSortedBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+
 }
