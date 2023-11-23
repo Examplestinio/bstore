@@ -3,6 +3,7 @@ package com.BStore.bstore.service.impl;
 import com.BStore.bstore.model.Book;
 import com.BStore.bstore.repository.BookRepository;
 import com.BStore.bstore.service.BookService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,15 +38,13 @@ public class BookServiceImpl implements BookService {
     public Book updateBook(Long id, Book updatedBook) {
         Optional<Book> optionalBook = bookRepository.findById(id);
 
-        if (optionalBook.isPresent()) {
-            Book existingBook = optionalBook.get();
-            existingBook.setTitle(updatedBook.getTitle());
-            existingBook.setAuthor(updatedBook.getAuthor());
-            existingBook.setPrice(updatedBook.getPrice());
-            return bookRepository.save(existingBook);
-        } else {
-            return null;
-        }
+        Book existingBook  = optionalBook.orElseThrow(EntityNotFoundException::new);
+
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setPrice(updatedBook.getPrice());
+
+        return bookRepository.save(existingBook);
     }
 
     @Override
